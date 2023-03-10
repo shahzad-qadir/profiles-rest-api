@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserModel, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
 
@@ -24,9 +24,9 @@ class UserModelManager(BaseUserManager):
         user.save(using=self._db)
 
 
-class UserProfile(BaseUserModel, PermissionsMixin):
+class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Create users for the system"""
-    email = models.EmailField(max_length=255, required=True)
+    email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
